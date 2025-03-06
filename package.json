@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "bible-scraper": "^2.0.1"
+    "bible-scraper": "^2.0.1",
+    "bing-chat": "^0.2.3"
   }
 }

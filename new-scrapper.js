@@ -15,37 +15,9 @@ async function getVerse(v) {
     }
 }
 
-function hasMultipleWords(inputString) {
-    // Use a regular expression to match one or more word characters separated by spaces
-    const pattern = /\w+\s+\w+/;
-  
-    // Test if the pattern matches the input string
-    return pattern.test(inputString);
-}
-
-function splitIntoSentences(text) {
-    // Basic splitting by period. Adjust the regex as needed for more accuracy.
-    return text.split(/\.|\?|!|\n/).filter(sentence => sentence.trim());
-}
-
 async function writeToCSV(data, filePath) {
-    const sentencesVN = splitIntoSentences(data.vn);
-    const sentencesBA = splitIntoSentences(data.ba);
-
-    // Assuming the number of sentences is the same for both languages
-    if(sentencesBA.length == sentencesVN.length){
-      
-        for (let i = 0; i < Math.min(sentencesVN.length, sentencesBA.length); i++) {
-            if(hasMultipleWords(sentencesVN[i]) && hasMultipleWords(sentencesBA[i])){
-                const csvRow = `"${sentencesVN[i].trim()}","${sentencesBA[i].trim()}"\n`;
-                await fs.appendFile(filePath, csvRow, 'utf8');
-            }
-        }
-    } else {
-        console.log("Eliminated a verse.")
-       
-    }
-    
+    const csvRow = `"${data.vn}","${data.ba}"\n`;
+    await fs.appendFile(filePath, csvRow, 'utf8');    
 }
 
 async function processRequests(urls, filePath) {
@@ -69,8 +41,6 @@ async function processRequests(urls, filePath) {
 const sublists = require('./data');
 const urls = sublists; // Your URLs here
 console.log("Number of verses", urls.length)
-
-
 
 
 processRequests(urls, filePath);
